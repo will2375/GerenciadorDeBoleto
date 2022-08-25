@@ -1,5 +1,6 @@
 package com.gerenciadorDeBoleto.controle.service;
 
+import com.gerenciadorDeBoleto.controle.model.ExibirDadosBoleto;
 import com.gerenciadorDeBoleto.controle.model.GerenciadorModel;
 import com.gerenciadorDeBoleto.controle.model.controleStatus.BoletoPago;
 import com.gerenciadorDeBoleto.controle.model.controleStatus.BoletoStatus;
@@ -18,9 +19,16 @@ public class GerenciadorService {
     @Autowired
     private GerenciadorRepository gerenciadorRepository;
 
-    public List<GerenciadorModel> buscarBoletos(){return gerenciadorRepository.findAll();}
+    public List<ExibirDadosBoleto> listaBoletos(){
+        List<GerenciadorModel> boletos = gerenciadorRepository.findAll();
+        return ExibirDadosBoleto.convert(boletos);
+    }
+    
 
     public Optional<GerenciadorModel> buscarId(Long id){ return gerenciadorRepository.findById(id);}
+
+    public List<GerenciadorModel> buscarStatus(String status){return gerenciadorRepository.findByStatus(status);}
+    public List<GerenciadorModel> buscarTipo (String tipo){return gerenciadorRepository.findByTipo(tipo);}
 
 
     public GerenciadorModel cadastrarBoleto(GerenciadorModel gerenciadorModel, BoletoStatus boletoStatus, ControleTipo controleTipo){

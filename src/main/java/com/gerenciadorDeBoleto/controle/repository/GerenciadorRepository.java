@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface GerenciadorRepository extends JpaRepository<GerenciadorModel, Long> {
 
-
+    public List<GerenciadorModel> findByStatus (String status);
+    public List<GerenciadorModel> findByTipo (String tipo);
 
 }
