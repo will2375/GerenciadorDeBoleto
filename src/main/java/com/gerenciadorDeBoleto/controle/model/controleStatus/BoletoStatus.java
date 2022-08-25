@@ -1,14 +1,16 @@
 package com.gerenciadorDeBoleto.controle.model.controleStatus;
 
+import com.gerenciadorDeBoleto.controle.model.enuns.EnumStatus;
+
 import java.time.LocalDate;
 
 public class BoletoStatus {
-    public String decidirBoleto(LocalDate dataValidade) {
+    public EnumStatus decidirBoleto(LocalDate dataValidade) {
         LocalDate dataHoje = LocalDate.now();
         if (dataValidade.isBefore(dataHoje)){
-            return "atrasado";
+            return EnumStatus.ATRASADO;
         } else if (dataValidade.isAfter(dataHoje)) {
-            return "aguaradando";
+            return EnumStatus.AGUARDANDO;
         }
         return null;
     }

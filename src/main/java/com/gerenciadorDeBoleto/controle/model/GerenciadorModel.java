@@ -25,6 +25,8 @@ public class GerenciadorModel {
     @Column(length = 50)
     private String tipo;
     @Column(length = 50)
+    private String escolherTipo;
+    @Column(length = 50)
     private double valor;
     @Column(length = 50)
     private LocalDate dataDeVencimento;

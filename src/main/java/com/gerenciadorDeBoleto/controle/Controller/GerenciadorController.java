@@ -3,6 +3,7 @@ package com.gerenciadorDeBoleto.controle.Controller;
 import com.gerenciadorDeBoleto.controle.model.GerenciadorModel;
 import com.gerenciadorDeBoleto.controle.model.controleStatus.BoletoPago;
 import com.gerenciadorDeBoleto.controle.model.controleStatus.BoletoStatus;
+import com.gerenciadorDeBoleto.controle.model.controleTipo.ControleTipo;
 import com.gerenciadorDeBoleto.controle.service.GerenciadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,14 +26,14 @@ public class GerenciadorController {
     public Optional<GerenciadorModel> buscarId(@PathVariable Long id){ return gerenciadorService.buscarId(id);}
 
     @PostMapping(path = "/contas")
-    public ResponseEntity<GerenciadorModel> cadastrarConta(@RequestBody GerenciadorModel gerenciadorModel, BoletoStatus boletoStatus){
-        GerenciadorModel contas=gerenciadorService.cadastrarBoleto(gerenciadorModel, boletoStatus);
+    public ResponseEntity<GerenciadorModel> cadastrarConta(@RequestBody GerenciadorModel gerenciadorModel, BoletoStatus boletoStatus, ControleTipo controleTipo){
+        GerenciadorModel contas=gerenciadorService.cadastrarBoleto(gerenciadorModel, boletoStatus, controleTipo);
         return new ResponseEntity<>(contas, HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "/contas/{id})")
-    public ResponseEntity<GerenciadorModel> aletrarStatus(@RequestBody GerenciadorModel gerenciadorModel, BoletoPago boletoPago) {
-        return ResponseEntity.ok(gerenciadorService.alterarStatus(gerenciadorModel, boletoPago));
+    @PutMapping(path = "/contas/{id}")
+    public ResponseEntity<GerenciadorModel> aletrarStatus(@PathVariable long id, @RequestBody GerenciadorModel gerenciadorModel, BoletoPago boletoPago) {
+        return  ResponseEntity.ok(gerenciadorService.alterarStatus(id, gerenciadorModel, boletoPago));
     }
 
 }
