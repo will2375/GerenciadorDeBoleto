@@ -5,33 +5,46 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpHeaders;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
-public class ErrosException extends ResponseEntityExceptionHandler {
+import java.util.ArrayList;
+import java.util.List;
+
+@RestControllerAdvice
+public class ErrosException {
 
     @Autowired
     MessageSource messageSource;
 
-    @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String menssagemUser = messageSource.getMessage("campo.invalido", null, null);
-        String mesnsagemDev = ex.getCause().toString();
-        return handleExceptionInternal(ex, new MensagemErro(menssagemUser, mesnsagemDev), headers, HttpStatus.BAD_REQUEST, request);
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    List<MensagemErro> handle(MethodArgumentNotValidException exception) {
+
+        List<MensagemErro> erros = new ArrayList<>();
+        List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
+
+        fieldErrors.forEach(e -> {
+            String msg = messageSource.getMessage(e, LocaleContextHolder.getLocale());
+            MensagemErro erro = new MensagemErro(e.getField(), msg);
+            erros.add(erro);
+        });
+        return erros;
     }
+
 
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    public  static class MensagemErro{
-        private String usuario;
-        private String dev;
+    public static class MensagemErro {
+        private String campo;
+        private String erro;
     }
 }

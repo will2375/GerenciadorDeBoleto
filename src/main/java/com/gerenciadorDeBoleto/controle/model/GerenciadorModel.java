@@ -23,19 +23,15 @@ public class GerenciadorModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 50)
-
+    @Column(length = 50) @NotNull @NotBlank
     private String nome;
     @Column(length = 50)
     private String status;
-    @Column(length = 50)
-
+    @Column(length = 50) @NotNull
     private String tipo;
-    @Column(length = 50)
-
+    @Column(length = 50) @NotNull
     private double valor;
-    @Column(length = 50)
-
+    @Column(length = 50) @NotNull
     private LocalDate dataDeVencimento;
     @Column(length = 50)
     private LocalDateTime dataDePagamento;
