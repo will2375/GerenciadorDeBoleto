@@ -28,8 +28,12 @@ public class GerenciadorController {
     @GetMapping(path = "/contas/{id}")
     public Optional<GerenciadorModel> buscarId(@PathVariable Long id){ return gerenciadorService.buscarId(id);}
 
-    @GetMapping(path = "/contas/status{status}")
-    public List<GerenciadorModel> buscarstatus(@PathVariable String status){ return gerenciadorService.buscarStatus(status);}
+    @GetMapping(path = "/contas/status/{status}")
+    public List<GerenciadorModel> buscarPorStatus(@PathVariable String status){ return gerenciadorService.buscarStatus(status);}
+
+    @GetMapping(path = "contas/tipo/{tipo}")
+    public List<GerenciadorModel>buscarTipo(@PathVariable String tipo){return gerenciadorService.buscarTipo(tipo);}
+
 
     @PostMapping(path = "/contas")
     public ResponseEntity<GerenciadorModel> cadastrarConta(@RequestBody @Valid GerenciadorModel gerenciadorModel, BoletoStatus boletoStatus, ControleTipo controleTipo){
@@ -41,5 +45,9 @@ public class GerenciadorController {
     public ResponseEntity<GerenciadorModel> aletrarStatus(@PathVariable long id, @RequestBody GerenciadorModel gerenciadorModel, BoletoPago boletoPago) {
         return  ResponseEntity.ok(gerenciadorService.alterarStatus(id, gerenciadorModel, boletoPago));
     }
+
+    @DeleteMapping(path = "/contas/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletarBoleto(@PathVariable Long id) {gerenciadorService.deletar(id);}
 
 }

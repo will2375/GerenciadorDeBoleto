@@ -23,7 +23,7 @@ public class GerenciadorService {
         List<GerenciadorModel> boletos = gerenciadorRepository.findAll();
         return ExibirDadosBoleto.convert(boletos);
     }
-    
+
 
     public Optional<GerenciadorModel> buscarId(Long id){ return gerenciadorRepository.findById(id);}
 
@@ -37,11 +37,10 @@ public class GerenciadorService {
         gerenciadorModel.getId();
         gerenciadorModel.getNome();
         gerenciadorModel.setStatus(String.valueOf(data));
-        gerenciadorModel.getEscolherTipo();
         gerenciadorModel.setTipo(String.valueOf(tipo));
         gerenciadorModel.getDataDeVencimento();
         gerenciadorModel.getValor();
-        gerenciadorModel.getDataDePagamento();
+        gerenciadorModel.setDataDePagamento(null);
         return gerenciadorRepository.save(gerenciadorModel);
     }
     public GerenciadorModel alterarStatus(Long id, GerenciadorModel gerenciadorModel, BoletoPago boletoPago){
@@ -54,5 +53,9 @@ public class GerenciadorService {
         gerenciadorModel.getValor();
         gerenciadorModel.setDataDePagamento(pagamento);
         return gerenciadorRepository.save(gerenciadorModel);
+    }
+
+    public void deletar(Long id) {
+        gerenciadorRepository.deleteById(id);
     }
 }
