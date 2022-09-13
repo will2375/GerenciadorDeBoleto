@@ -2,6 +2,7 @@ package com.gerenciadorDeBoleto.controle.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -25,8 +26,6 @@ public class ContasReceber implements Serializable {
     private String recebimento;
     @Column @NotNull
     private BigDecimal valorRecebimento;
-    @Column
-    private String recebimentoAlugueis;
     @Column @NotNull @NotBlank
     private String tipoRecebimento;
     @Column @NotNull

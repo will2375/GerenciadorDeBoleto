@@ -8,11 +8,13 @@ import com.gerenciadorDeBoleto.controle.model.controleStatus.RecebimentoStatus;
 import com.gerenciadorDeBoleto.controle.model.controleTipo.ControleRecebimento;
 import com.gerenciadorDeBoleto.controle.service.ContasService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +37,10 @@ public class ContasController {
     public List<ContasReceber> buscarPorTipoRecebimento(@PathVariable String tipoRecebimento){ return contasService.buscarTiporecebimento(tipoRecebimento);}
 
     @GetMapping(path = "/contasReceber/data/{dataDeVencimento}")
-    public List<ContasReceber> buscarPordataDeVencimento(@PathVariable LocalDate dataDeVencimento){ return contasService.buscarDataDeVencimento(dataDeVencimento);}
+    public List<ContasReceber> buscarPordataDeVencimento(@PathVariable  String dataDeVencimento)
+    { LocalDate ld1 = LocalDate.parse(dataDeVencimento, DateTimeFormatter.ISO_DATE);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return contasService.buscarDataDeVencimento(ld1);}
 
     @PostMapping(path = "/contasReceber")
     public ContasReceber cadastrar(@RequestBody @Valid ContasReceber contasReceber, ControleRecebimento controleRecebimento, ControleAlugueis controleAlugueis, CalculoTipoRecebimento calculoTipoRecebimento)

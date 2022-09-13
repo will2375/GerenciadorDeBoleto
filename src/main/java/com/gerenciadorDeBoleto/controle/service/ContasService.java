@@ -44,7 +44,6 @@ public class ContasService {
         contasReceber.setValorRecebimento(resultado);
         contasReceber.setTipoRecebimento(String.valueOf(tipo));
         contasReceber.getDataDeVencimento();
-        contasReceber.setRecebimentoAlugueis(vencimento);
         contasReceber.setDataDeRecebimento(null);
         contasReceber.setStatus("pendente");
         return contasRepository.save(contasReceber);
@@ -57,7 +56,6 @@ public class ContasService {
         contasReceber.getValorRecebimento();
         contasReceber.getTipoRecebimento();
         contasReceber.getDataDeVencimento();
-        contasReceber.getRecebimentoAlugueis();
         contasReceber.setDataDeRecebimento(pagamento);
         contasReceber.getStatus();
         return contasRepository.save(contasReceber);
